@@ -27,15 +27,7 @@ const metrics = [
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <section className="mx-auto flex w-full max-w-6xl justify-center px-6 pt-10">
-        <div className="rounded-xl bg-black p-10 text-white">
-          Tailwind smoke test
-        </div>
-      </section>
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 pt-8">
-        <div className="text-4xl font-bold text-center mt-20">
-          Tailwind Works
-        </div>
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-charcoal text-ivory">
             TF
