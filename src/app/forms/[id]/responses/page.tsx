@@ -20,10 +20,12 @@ type AnswerRow = {
   id: string;
   response_id: string;
   value: unknown;
-  question: {
-    id: string;
-    title: string;
-  } | null;
+  question:
+    | {
+        id: string;
+        title: string;
+      }[]
+    | null;
 };
 
 export default function ResponsesPage() {
@@ -211,7 +213,7 @@ export default function ResponsesPage() {
                   {responseAnswers.map((answer) => (
                     <div key={answer.id} className="rounded-2xl bg-sand px-4 py-3">
                       <p className="text-xs uppercase tracking-[0.2em] text-charcoal/50">
-                        {answer.question?.title ?? "Question"}
+                        {answer.question?.[0]?.title ?? "Question"}
                       </p>
                       <p className="mt-2 text-sm text-charcoal">
                         {typeof answer.value === "string"
