@@ -21,6 +21,9 @@ export default function DashboardPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -97,6 +100,49 @@ export default function DashboardPage() {
     setShowCreate(false);
 
     router.push(`/forms/${data.id}/edit`);
+  };
+
+  const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!aiPrompt.trim()) return;
+
+    setGenerating(true);
+    setAiError(null);
+
+    const sessionData = await supabase.auth.getSession();
+    const accessToken = sessionData.data.session?.access_token;
+
+    if (!accessToken) {
+      setAiError("Session expired. Please log in again.");
+      setGenerating(false);
+      return;
+    }
+
+    const response = await fetch("/api/generate-form", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({ prompt: aiPrompt.trim() })
+    });
+
+    if (!response.ok) {
+      const payload = await response.json().catch(() => null);
+      setAiError(payload?.error ?? "Failed to generate form.");
+      setGenerating(false);
+      return;
+    }
+
+    const payload = await response.json();
+    setGenerating(false);
+    setAiPrompt("");
+
+    if (payload?.formId) {
+      router.push(`/forms/${payload.formId}/edit`);
+    } else {
+      setAiError("No form returned.");
+    }
   };
 
   const formCount = useMemo(() => forms.length, [forms]);
@@ -207,13 +253,45 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-charcoal/10 bg-sand p-6 shadow-soft">
-            <p className="text-xs uppercase tracking-[0.3em] text-rust">Tip</p>
-            <h3 className="mt-3 font-display text-2xl text-charcoal">Keep it conversational.</h3>
-            <p className="mt-3 text-sm text-charcoal/70">
-              Short questions with direct answers increase completion. Use the editor to
-              order questions and test the flow before you publish.
-            </p>
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-charcoal/10 bg-ivory p-6 shadow-soft">
+              <p className="text-xs uppercase tracking-[0.3em] text-teal">Generate with AI</p>
+              <h3 className="mt-3 font-display text-2xl text-charcoal">
+                Start with a prompt.
+              </h3>
+              <p className="mt-2 text-sm text-charcoal/70">
+                Describe the form you want to build and we will draft the questions.
+              </p>
+              <form onSubmit={handleGenerate} className="mt-4 space-y-3">
+                <textarea
+                  value={aiPrompt}
+                  onChange={(event) => setAiPrompt(event.target.value)}
+                  placeholder="e.g. A short onboarding survey for new customers"
+                  rows={4}
+                  className="w-full rounded-2xl border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition focus:border-teal"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={generating}
+                  className="w-full rounded-xl bg-charcoal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {generating ? "Generating..." : "Generate form"}
+                </button>
+              </form>
+              {aiError && <p className="mt-3 text-sm text-rust">{aiError}</p>}
+            </div>
+
+            <div className="rounded-3xl border border-charcoal/10 bg-sand p-6 shadow-soft">
+              <p className="text-xs uppercase tracking-[0.3em] text-rust">Tip</p>
+              <h3 className="mt-3 font-display text-2xl text-charcoal">
+                Keep it conversational.
+              </h3>
+              <p className="mt-3 text-sm text-charcoal/70">
+                Short questions with direct answers increase completion. Use the editor to
+                order questions and test the flow before you publish.
+              </p>
+            </div>
           </div>
         </section>
       </div>
