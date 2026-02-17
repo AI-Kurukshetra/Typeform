@@ -1,7 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
+  --color-bg: 247 247 248;
+  --color-surface: 255 255 255;
+  --color-text: 17 24 39;
+  --color-muted: 107 114 128;
+  --color-border: 229 231 235;
+  --color-primary: 37 99 235;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: 15 17 21;
+    --color-surface: 26 29 36;
+    --color-text: 229 231 235;
+    --color-muted: 156 163 175;
+    --color-border: 42 47 58;
+    --color-primary: 37 99 235;
+  }
 }
 
 * {
@@ -10,12 +27,8 @@
 
 body {
   min-height: 100vh;
-  background-color: #f7f2ea;
-  background-image:
-    radial-gradient(circle at 15% 20%, rgba(27, 111, 106, 0.12), transparent 45%),
-    radial-gradient(circle at 85% 15%, rgba(199, 100, 56, 0.14), transparent 42%),
-    linear-gradient(140deg, rgba(17, 21, 26, 0.04), rgba(247, 242, 234, 0.95));
-  color: #11151a;
+  background-color: rgb(var(--color-bg));
+  color: rgb(var(--color-text));
 }
 
 main {

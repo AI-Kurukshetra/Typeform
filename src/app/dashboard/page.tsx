@@ -11,6 +11,7 @@ type FormRow = {
   created_at: string;
 };
 
+
 export default function DashboardPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
@@ -51,7 +52,8 @@ export default function DashboardPage() {
       if (formsError) {
         setError(formsError.message);
       } else {
-        setForms(formsData ?? []);
+        const safeForms = formsData ?? [];
+        setForms(safeForms);
       }
 
       setLoading(false);
@@ -145,8 +147,8 @@ export default function DashboardPage() {
     }
   };
 
-  const formCount = useMemo(() => forms.length, [forms]);
 
+  const formCount = useMemo(() => forms.length, [forms]);
   if (loading) {
     return (
       <main className="min-h-screen">
@@ -179,7 +181,7 @@ export default function DashboardPage() {
             </Link>
             <button
               onClick={handleLogout}
-              className="rounded-full bg-charcoal px-4 py-2 text-sm text-ivory"
+              className="rounded-full bg-teal px-4 py-2 text-sm text-ivory transition hover:bg-teal/90"
             >
               Log out
             </button>
@@ -187,12 +189,12 @@ export default function DashboardPage() {
         </header>
 
         <section className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-charcoal/10 bg-ivory p-6 shadow-soft">
+          <div className="rounded-3xl border border-sand bg-ivory p-6 shadow-soft">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-xl text-charcoal">Recent forms</h2>
+              <h2 className="font-display text-xl text-charcoal">Your forms</h2>
               <button
                 onClick={() => setShowCreate((prev) => !prev)}
-                className="rounded-full bg-teal px-4 py-2 text-sm text-ivory"
+                className="rounded-full bg-teal px-4 py-2 text-sm text-ivory transition hover:bg-teal/90"
               >
                 Create form
               </button>
@@ -212,7 +214,7 @@ export default function DashboardPage() {
                   <button
                     type="submit"
                     disabled={creating}
-                    className="rounded-full bg-charcoal px-5 py-2 text-sm text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70"
+                    className="rounded-full bg-teal px-5 py-2 text-sm text-ivory transition hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {creating ? "Creating..." : "Create"}
                   </button>
@@ -227,11 +229,11 @@ export default function DashboardPage() {
               </form>
             )}
 
-            {error && <p className="mt-4 text-sm text-rust">{error}</p>}
+            {error && <p className="mt-4 text-sm text-teal">{error}</p>}
 
             <div className="mt-6 space-y-3">
               {forms.length === 0 && (
-                <div className="rounded-2xl border border-dashed border-charcoal/20 bg-sand px-4 py-6 text-sm text-charcoal/60">
+                <div className="rounded-2xl border border-dashed border-sand bg-cedar px-4 py-6 text-sm text-mist">
                   No forms yet. Create your first conversational flow.
                 </div>
               )}
@@ -239,11 +241,11 @@ export default function DashboardPage() {
                 <Link
                   key={form.id}
                   href={`/forms/${form.id}/edit`}
-                  className="flex items-center justify-between rounded-2xl border border-charcoal/10 bg-sand px-4 py-4 transition hover:border-charcoal/30"
+                  className="flex items-center justify-between rounded-2xl border border-sand bg-cedar px-4 py-4 transition hover:border-mist"
                 >
                   <div>
                     <p className="font-medium text-charcoal">{form.title}</p>
-                    <p className="text-xs text-charcoal/60">
+                    <p className="text-xs text-mist">
                       Created {new Date(form.created_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -253,45 +255,32 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="rounded-3xl border border-charcoal/10 bg-ivory p-6 shadow-soft">
-              <p className="text-xs uppercase tracking-[0.3em] text-teal">Generate with AI</p>
-              <h3 className="mt-3 font-display text-2xl text-charcoal">
-                Start with a prompt.
-              </h3>
-              <p className="mt-2 text-sm text-charcoal/70">
-                Describe the form you want to build and we will draft the questions.
-              </p>
-              <form onSubmit={handleGenerate} className="mt-4 space-y-3">
-                <textarea
-                  value={aiPrompt}
-                  onChange={(event) => setAiPrompt(event.target.value)}
-                  placeholder="e.g. A short onboarding survey for new customers"
-                  rows={4}
-                  className="w-full rounded-2xl border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition focus:border-teal"
-                  required
-                />
-                <button
-                  type="submit"
-                  disabled={generating}
-                  className="w-full rounded-xl bg-charcoal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {generating ? "Generating..." : "Generate form"}
-                </button>
-              </form>
-              {aiError && <p className="mt-3 text-sm text-rust">{aiError}</p>}
-            </div>
-
-            <div className="rounded-3xl border border-charcoal/10 bg-sand p-6 shadow-soft">
-              <p className="text-xs uppercase tracking-[0.3em] text-rust">Tip</p>
-              <h3 className="mt-3 font-display text-2xl text-charcoal">
-                Keep it conversational.
-              </h3>
-              <p className="mt-3 text-sm text-charcoal/70">
-                Short questions with direct answers increase completion. Use the editor to
-                order questions and test the flow before you publish.
-              </p>
-            </div>
+          <div className="rounded-3xl border border-sand bg-ivory p-6 shadow-soft">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal">Generate with AI</p>
+            <h3 className="mt-3 font-display text-2xl text-charcoal">
+              Start with a prompt.
+            </h3>
+            <p className="mt-2 text-sm text-mist">
+              Describe the form you want to build and we will draft the questions.
+            </p>
+            <form onSubmit={handleGenerate} className="mt-4 space-y-3">
+              <textarea
+                value={aiPrompt}
+                onChange={(event) => setAiPrompt(event.target.value)}
+                placeholder="e.g. A short onboarding survey for new customers"
+                rows={4}
+                className="w-full rounded-2xl border border-sand bg-cedar px-4 py-3 text-sm text-charcoal outline-none transition focus:border-teal"
+                required
+              />
+              <button
+                type="submit"
+                disabled={generating}
+                className="w-full rounded-xl bg-teal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {generating ? "Generating..." : "Generate form"}
+              </button>
+            </form>
+            {aiError && <p className="mt-3 text-sm text-teal">{aiError}</p>}
           </div>
         </section>
       </div>

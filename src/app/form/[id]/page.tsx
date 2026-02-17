@@ -154,7 +154,7 @@ export default function FormPlayerPage() {
     return (
       <main className="min-h-screen">
         <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
-          <div className="rounded-3xl border border-charcoal/10 bg-ivory px-6 py-4 text-sm text-rust shadow-soft">
+          <div className="rounded-3xl border border-sand bg-ivory px-6 py-4 text-sm text-teal shadow-soft">
             {error}
           </div>
         </div>
@@ -164,50 +164,50 @@ export default function FormPlayerPage() {
 
   if (submitted) {
     return (
-      <main className="min-h-screen">
-        <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
-          <div className="w-full max-w-xl rounded-3xl border border-charcoal/10 bg-ivory p-10 text-center shadow-soft">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal">Complete</p>
-            <h1 className="mt-3 font-display text-3xl text-charcoal">Thanks for your response.</h1>
-            <p className="mt-3 text-sm text-charcoal/70">
-              Your answers have been recorded.
-            </p>
-            <div className="mt-6 flex justify-center">
-              <Link
-                href="/"
-                className="rounded-full bg-charcoal px-6 py-3 text-sm text-ivory"
-              >
-                Back home
-              </Link>
-            </div>
+    <main className="min-h-screen">
+      <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
+        <div className="w-full max-w-xl rounded-3xl border border-sand bg-ivory p-10 text-center shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal">Complete</p>
+          <h1 className="mt-3 font-display text-3xl text-charcoal">Thanks for your response.</h1>
+          <p className="mt-3 text-sm text-mist">
+            Your answers have been recorded.
+          </p>
+          <div className="mt-6 flex justify-center">
+            <Link
+              href="/"
+              className="rounded-full bg-teal px-6 py-3 text-sm text-ivory transition hover:bg-teal/90"
+            >
+              Back home
+            </Link>
           </div>
         </div>
-      </main>
+      </div>
+    </main>
     );
   }
 
   if (!currentQuestion) {
     return (
-      <main className="min-h-screen">
-        <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
-          <div className="w-full max-w-xl rounded-3xl border border-charcoal/10 bg-ivory p-10 text-center shadow-soft">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal">No questions</p>
-            <h1 className="mt-3 font-display text-3xl text-charcoal">This form is empty.</h1>
-            <p className="mt-3 text-sm text-charcoal/70">
-              Add questions in the editor before sharing it.
-            </p>
-            <div className="mt-6 flex justify-center">
-              <Link
-                href={`/forms/${formId}/edit`}
-                className="rounded-full bg-charcoal px-6 py-3 text-sm text-ivory"
-              >
-                Open editor
-              </Link>
-            </div>
+    <main className="min-h-screen">
+      <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
+        <div className="w-full max-w-xl rounded-3xl border border-sand bg-ivory p-10 text-center shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal">No questions</p>
+          <h1 className="mt-3 font-display text-3xl text-charcoal">This form is empty.</h1>
+          <p className="mt-3 text-sm text-mist">
+            Add questions in the editor before sharing it.
+          </p>
+          <div className="mt-6 flex justify-center">
+            <Link
+              href={`/forms/${formId}/edit`}
+              className="rounded-full bg-teal px-6 py-3 text-sm text-ivory transition hover:bg-teal/90"
+            >
+              Open editor
+            </Link>
           </div>
         </div>
-      </main>
-    );
+      </div>
+    </main>
+  );
   }
 
   const answerValue = answers[currentQuestion.id] ?? "";
@@ -217,8 +217,8 @@ export default function FormPlayerPage() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-6">
-        <div className="w-full max-w-2xl rounded-3xl border border-charcoal/10 bg-ivory p-10 shadow-soft">
-          <div className="mb-6 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-charcoal/50">
+        <div className="w-full max-w-2xl rounded-3xl border border-sand bg-ivory p-10 shadow-soft">
+          <div className="mb-6 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-mist">
             <span>{form?.title ?? "Form"}</span>
             <span>
               {currentIndex + 1} / {questions.length}
@@ -250,7 +250,7 @@ export default function FormPlayerPage() {
                   value={answerValue}
                   onChange={(event) => handleAnswerChange(event.target.value)}
                   placeholder="Type your answer"
-                  className="w-full rounded-xl border border-charcoal/15 bg-white px-4 py-3 text-base text-charcoal outline-none transition focus:border-teal"
+                  className="w-full rounded-xl border border-sand bg-ivory px-4 py-3 text-base text-charcoal outline-none transition focus:border-teal"
                 />
               )}
 
@@ -268,7 +268,7 @@ export default function FormPlayerPage() {
                       className={`w-full rounded-xl border px-4 py-3 text-left text-base transition ${
                         answerValue === option
                           ? "border-teal bg-teal/10 text-teal"
-                          : "border-charcoal/15 bg-white text-charcoal hover:border-charcoal/40"
+                          : "border-sand bg-ivory text-charcoal hover:border-mist"
                       }`}
                     >
                       {option}
@@ -283,7 +283,7 @@ export default function FormPlayerPage() {
             <button
               type="button"
               onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-              className="text-sm text-charcoal/60"
+              className="text-sm text-mist"
               disabled={currentIndex === 0}
             >
               Back
@@ -294,7 +294,7 @@ export default function FormPlayerPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={!canAdvance}
-                className="rounded-full bg-charcoal px-6 py-3 text-sm text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-teal px-6 py-3 text-sm text-ivory transition hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Next
               </button>

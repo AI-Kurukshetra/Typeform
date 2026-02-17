@@ -12,16 +12,16 @@ const config: Config = {
         display: ["var(--font-display)", "ui-serif"]
       },
       colors: {
-        ivory: "#f7f2ea",
-        charcoal: "#11151a",
-        cedar: "#6c3f2b",
-        rust: "#c76438",
-        teal: "#1b6f6a",
-        mist: "#e6e1d7",
-        sand: "#efe6da"
+        ivory: "rgb(var(--color-surface) / <alpha-value>)",
+        charcoal: "rgb(var(--color-text) / <alpha-value>)",
+        cedar: "rgb(var(--color-bg) / <alpha-value>)",
+        rust: "rgb(var(--color-primary) / <alpha-value>)",
+        teal: "rgb(var(--color-primary) / <alpha-value>)",
+        mist: "rgb(var(--color-muted) / <alpha-value>)",
+        sand: "rgb(var(--color-border) / <alpha-value>)"
       },
       boxShadow: {
-        soft: "0 20px 50px -30px rgba(17, 21, 26, 0.35)"
+        soft: "0 20px 50px -30px rgba(0, 0, 0, 0.6)"
       }
     }
   },

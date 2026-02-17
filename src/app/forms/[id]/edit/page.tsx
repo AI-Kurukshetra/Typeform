@@ -165,7 +165,7 @@ export default function FormEditorPage() {
             )}
             {formId && (
               <Link
-                className="rounded-full bg-charcoal px-4 py-2 text-sm text-ivory"
+                className="rounded-full bg-teal px-4 py-2 text-sm text-ivory transition hover:bg-teal/90"
                 href={`/form/${formId}`}
               >
                 Preview form
@@ -205,7 +205,7 @@ export default function FormEditorPage() {
           </div>
 
           <div className="rounded-3xl border border-charcoal/10 bg-sand p-6 shadow-soft">
-            <p className="text-xs uppercase tracking-[0.3em] text-rust">Add question</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-teal">Add question</p>
             <h3 className="mt-3 font-display text-2xl text-charcoal">New prompt</h3>
             <p className="mt-2 text-sm text-charcoal/70">
               Keep it short. You can add multiple choice or free response.
@@ -238,13 +238,13 @@ export default function FormEditorPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full rounded-xl bg-charcoal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full rounded-xl bg-teal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {saving ? "Adding..." : "Add question"}
               </button>
             </form>
 
-            {error && <p className="mt-4 text-sm text-rust">{error}</p>}
+            {error && <p className="mt-4 text-sm text-teal">{error}</p>}
           </div>
         </section>
       </div>

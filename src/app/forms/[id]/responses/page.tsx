@@ -146,7 +146,7 @@ export default function ResponsesPage() {
     return (
       <main className="min-h-screen">
         <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-6">
-          <div className="rounded-3xl border border-charcoal/10 bg-ivory px-6 py-4 text-sm text-rust shadow-soft">
+          <div className="rounded-3xl border border-sand bg-ivory px-6 py-4 text-sm text-teal shadow-soft">
             {error}
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function ResponsesPage() {
               Back to editor
             </Link>
             <Link
-              className="rounded-full bg-charcoal px-4 py-2 text-sm text-ivory"
+              className="rounded-full bg-teal px-4 py-2 text-sm text-ivory transition hover:bg-teal/90"
               href={`/form/${formId}`}
             >
               Open form

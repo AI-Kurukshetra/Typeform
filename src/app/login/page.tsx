@@ -87,14 +87,14 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-charcoal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70"
+              className="w-full rounded-xl bg-teal px-4 py-3 text-sm font-medium text-ivory transition hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? "Sending magic link..." : "Send magic link"}
             </button>
           </form>
 
           {message && <p className="mt-4 text-sm text-teal">{message}</p>}
-          {error && <p className="mt-4 text-sm text-rust">{error}</p>}
+          {error && <p className="mt-4 text-sm text-teal">{error}</p>}
 
           <div className="mt-6 flex items-center justify-between text-xs text-charcoal/60">
             <span>Need help? Check spam folder.</span>
