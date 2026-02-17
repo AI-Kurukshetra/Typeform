@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
 const stats = [
   { label: "Active flows", value: "12" },
@@ -13,6 +18,57 @@ const activity = [
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState<string | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!mounted) return;
+
+      if (!data.session) {
+        router.replace("/login");
+        return;
+      }
+
+      setEmail(data.session.user.email ?? null);
+      setChecking(false);
+    };
+
+    checkSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        router.replace("/login");
+      }
+    });
+
+    return () => {
+      mounted = false;
+      authListener.subscription.unsubscribe();
+    };
+  }, [router]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.replace("/login");
+  };
+
+  if (checking) {
+    return (
+      <main className="min-h-screen">
+        <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-6">
+          <div className="rounded-3xl border border-charcoal/10 bg-ivory px-6 py-4 text-sm text-charcoal/70 shadow-soft">
+            Checking session...
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen">
       <div className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -21,7 +77,7 @@ export default function DashboardPage() {
             <p className="text-xs uppercase tracking-[0.3em] text-teal">Dashboard</p>
             <h1 className="font-display text-3xl text-charcoal">Workspace overview</h1>
             <p className="mt-2 text-sm text-charcoal/70">
-              Track flows, watch completion, and refine the experience.
+              Signed in as {email ?? ""}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -29,10 +85,13 @@ export default function DashboardPage() {
               className="rounded-full border border-charcoal/20 px-4 py-2 text-sm text-charcoal/80 transition hover:border-charcoal hover:text-charcoal"
               href="/"
             >
-              Back to landing
+              Back home
             </Link>
-            <button className="rounded-full bg-charcoal px-4 py-2 text-sm text-ivory">
-              New flow
+            <button
+              onClick={handleLogout}
+              className="rounded-full bg-charcoal px-4 py-2 text-sm text-ivory"
+            >
+              Log out
             </button>
           </div>
         </header>
